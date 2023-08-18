@@ -21,13 +21,12 @@ export default function save() {
 
 	return (
 		<div { ...useBlockProps.save() }>
-			<button type="button" id="toc-btn" class="il-button il-blue" data-toggle="modal" data-target="#toc-modal">
+			
+            <button type="button" id="toc-btn" class="il-button il-blue" data-toggle="modal" data-target="#toc-modal">
 				Table of Contents
 			</button>
 
 			<TOCPanel />
-
-			<ol id="test-toc"></ol>
 
 		</div>
 	);

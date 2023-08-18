@@ -41,8 +41,6 @@ export default function Edit() {
 		
 			<TOCPanel />
 
-			<ol id="test-toc"></ol>
-
 		</div>
 	);
 }

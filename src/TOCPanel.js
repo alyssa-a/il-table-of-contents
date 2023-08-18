@@ -10,11 +10,7 @@ const TOCPanel = () => {
 						</button>
 					</div>
 					<div class="modal-body">
-						<div id="toc">
-							<nav>
-								<ol id="toc-list"></ol>
-							</nav>
-						</div>
+                        <nav id="toc"></nav>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="il-button il-blue" data-dismiss="modal">Close</button>
