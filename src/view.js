@@ -1,16 +1,3 @@
-const TOCLink = ({ id, text }) => {
-    const handleAnchorClick = () => {
-
-    } 
-
-    return (
-        <a href={`#${id}`} onClick={handleAnchorClick}>
-            {text}
-        </a>
-    )
-    
-}
-
 const TOCList = () => {
     const headingElements = document.querySelectorAll('#primary .wp-block-heading');
     
@@ -28,7 +15,8 @@ const TOCList = () => {
             id: elem.id,
             text: elem.innerText,
             level: Number(elem.nodeName.charAt(1)),
-            children: []
+            children: [],
+            section: ""
         }));
 
     const buildNestedHeadings = (headings) => {
