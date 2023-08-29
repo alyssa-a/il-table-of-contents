@@ -15,8 +15,7 @@ const TOCList = () => {
             id: elem.id,
             text: elem.innerText,
             level: Number(elem.nodeName.charAt(1)),
-            children: [],
-            section: ""
+            children: []
         }));
 
     const buildNestedHeadings = (headings) => {
