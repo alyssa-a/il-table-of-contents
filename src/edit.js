@@ -11,7 +11,7 @@ import { __ } from "@wordpress/i18n";
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps } from "@wordpress/block-editor";
+import { useBlockProps, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -31,12 +31,28 @@ import TOCPanel from "./TOCPanel";
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit() {
-	return (
-		<div {...useBlockProps()}>
+export default function Edit( { attributes, setAttributes } ) {
+	const { alignment } = attributes;
 
-			<button type="button" id="toc-btn" class="il-button il-blue" data-toggle="modal" data-target="#toc-modal">
-				Table of Contents
+	const onChangeAlignment = (newAlignment) => {
+		setAttributes( { alignment: newAlignment } )
+	}
+
+	return (
+		<div {...useBlockProps()} style={{textAlign: alignment}}>
+			<BlockControls>
+				<AlignmentToolbar
+					value={alignment}
+					onChange={onChangeAlignment} />
+			</BlockControls>
+
+			<button
+				type="button"
+				id="toc-btn"
+				className="il-button il-blue"
+				data-toggle="modal"
+				data-target="#toc-modal">
+					Table of Contents
 			</button>
 		
 			<TOCPanel />
