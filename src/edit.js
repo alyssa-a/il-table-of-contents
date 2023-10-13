@@ -11,7 +11,13 @@ import { __ } from "@wordpress/i18n";
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, BlockControls, AlignmentToolbar } from "@wordpress/block-editor";
+import { useBlockProps, BlockControls, InspectorControls, JustifyContentControl } from "@wordpress/block-editor";
+
+/**
+ *  import wordpress components
+ *  @see https://developer.wordpress.org/block-editor/reference-guides/components
+*/
+import { PanelBody, ToggleControl } from '@wordpress/components';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -20,8 +26,6 @@ import { useBlockProps, BlockControls, AlignmentToolbar } from "@wordpress/block
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import "./editor.scss";
-
-import TOCPanel from "./TOCPanel";
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -32,30 +36,52 @@ import TOCPanel from "./TOCPanel";
  * @return {WPElement} Element to render.
  */
 export default function Edit( { attributes, setAttributes } ) {
-	const { alignment } = attributes;
+	const { justification, sticky } = attributes;
 
-	const onChangeAlignment = (newAlignment) => {
-		setAttributes( { alignment: newAlignment } )
+	const onChangeJustification = (newJustification) => {
+		setAttributes( { justification: newJustification } )
+	}
+
+	const onChangeSticky = () => {
+		setAttributes( { sticky: ! sticky } );
 	}
 
 	return (
-		<div {...useBlockProps()} style={{textAlign: alignment}}>
+		<div { ...useBlockProps() }>
+			<InspectorControls>
+				<PanelBody title="Button Position">
+					<ToggleControl 
+						label="Sticky"
+						help={
+							sticky ?
+							"Sticks to top of page on scroll"
+							: "Does not stick to top of page"
+						}
+						checked={ sticky }
+						onChange={ onChangeSticky }
+					/>
+				</PanelBody>
+			</InspectorControls>
+
 			<BlockControls>
-				<AlignmentToolbar
-					value={alignment}
-					onChange={onChangeAlignment} />
+				<JustifyContentControl
+					value={ justification }
+					onChange={ onChangeJustification }
+				/>
 			</BlockControls>
 
-			<button
-				type="button"
-				id="toc-btn"
-				className="il-button il-blue"
-				data-toggle="modal"
-				data-target="#toc-modal">
-					Table of Contents
-			</button>
-		
-			<TOCPanel />
+			<div className={`toc-btn-wrapper items-justified-${justification}`} >
+
+				<button
+					type="button"
+					id="toc-btn"
+					className="il-button il-blue"
+					data-toggle="modal"
+					data-target="#toc-modal">
+						Table of Contents
+				</button>
+
+			</div>
 
 		</div>
 	);

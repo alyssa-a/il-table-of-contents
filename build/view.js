@@ -90,6 +90,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 
+
 const TOCList = () => {
   const headingElements = document.querySelectorAll('#primary .wp-block-heading');
 
@@ -132,7 +133,9 @@ const TOCList = () => {
       key: heading.id
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
       href: "#" + heading.id
-    }, heading.text), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ol", null, mapHeadings(heading.children))) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    }, heading.text), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ol", null, mapHeadings(heading.children))) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+      key: heading.id
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
       href: "#" + heading.id
     }, heading.text))));
   };
@@ -141,10 +144,11 @@ const TOCList = () => {
 };
 
 // Render the list items
-const toc = document.getElementById('toc');
-ReactDOM.render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(TOCList, null), toc);
+const tocElement = document.getElementById('toc');
+const tocRoot = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createRoot)(tocElement);
+tocRoot.render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(TOCList, null));
 
-// Bootstrap modal manipulation requires jQuery, so we handle anchor links clicks with jQuery
+// Bootstrap 4 modal manipulation requires jQuery, so we handle anchor links clicks with jQuery
 
 jQuery(document).ready(function ($) {
   // Handle anchor link clicks
@@ -163,6 +167,24 @@ jQuery(document).ready(function ($) {
     });
   });
 });
+
+// Handle "sticky" positioning on scroll
+let stickyTOC = document.querySelector('.sticky-toc');
+console.log(stickyTOC.getBoundingClientRect().top);
+window.onscroll = () => {
+  let topPos = stickyTOC.getBoundingClientRect().top;
+  console.log(topPos);
+  if (topPos < 0) {
+    stickyTOC.style.position = "fixed";
+    stickyTOC.style.top = "0";
+  } else if (topPos > 0) {
+    stickyTOC.style.position = "static";
+  }
+};
+
+// if (stickyTOC.scrollTop() == 0) {
+//     alert("at the top!");
+// }
 })();
 
 /******/ })()

@@ -18,20 +18,22 @@ import TOCPanel from './TOCPanel';
  * @return {WPElement} Element to render.
  */
 export default function save( { attributes } ) {
-	const { alignment } = attributes
+	const { justification, sticky } = attributes
 
 
 	return (
-		<div { ...useBlockProps.save()} style={{textAlign: alignment}}>
+		<div { ...useBlockProps.save() }>
 			
-            <button
-				type="button"
-				id="toc-btn"
-				className="il-button il-blue"
-				data-toggle="modal"
-				data-target="#toc-modal">
-					Table of Contents
-			</button>
+			<div className={`toc-btn-wrapper items-justified-${justification}`} >
+				<button
+					type="button"
+					id="toc-btn"
+					className="il-button il-blue"
+					data-toggle="modal"
+					data-target="#toc-modal">
+						Table of Contents
+				</button>
+			</div>
 
 			<TOCPanel />
 

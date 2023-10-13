@@ -1,3 +1,5 @@
+import { createRoot } from '@wordpress/element';
+
 const TOCList = () => {
     const headingElements = document.querySelectorAll('#primary .wp-block-heading');
     
@@ -52,7 +54,7 @@ const TOCList = () => {
                     </ol>
                 </li>
             ) : (
-                <li>
+                <li key={heading.id}>
                     <a href={"#" + heading.id}>{heading.text}</a>
                 </li>
             )}
@@ -70,11 +72,12 @@ const TOCList = () => {
 }
 
 // Render the list items
-const toc = document.getElementById('toc');
-ReactDOM.render(<TOCList />, toc);
+const tocElement = document.getElementById('toc');
+const tocRoot = createRoot(tocElement);
+tocRoot.render(<TOCList />);
 
 
-// Bootstrap modal manipulation requires jQuery, so we handle anchor links clicks with jQuery
+// Bootstrap 4 modal manipulation requires jQuery, so we handle anchor links clicks with jQuery
 
 jQuery(document).ready(function( $ ) {
     
@@ -92,3 +95,25 @@ jQuery(document).ready(function( $ ) {
         $('#toc-btn').one('focus', function(e){$(this).blur();});
     });
 });
+
+// Handle "sticky" positioning on scroll
+let stickyTOC = document.querySelector('.sticky-toc');
+console.log(stickyTOC.getBoundingClientRect().top);
+
+
+window.onscroll = () => {
+    let topPos = stickyTOC.getBoundingClientRect().top;
+    console.log(topPos);
+    if (topPos < 0) {
+        stickyTOC.style.position = "fixed";
+        stickyTOC.style.top = "0";
+    } else if (topPos > 0) {
+        stickyTOC.style.position = "static";
+    }
+
+}
+
+
+// if (stickyTOC.scrollTop() == 0) {
+//     alert("at the top!");
+// }

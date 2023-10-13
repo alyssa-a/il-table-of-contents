@@ -16,8 +16,13 @@
 	"style": "file:./style-index.css",
 	"viewScript": "file:./view.js",
 	"attributes": {
-		"alignment": {
-			"type": "string"
+		"justification": {
+			"type": "string",
+			"default": "left"
+		},
+		"sticky": {
+			"type": "boolean",
+			"default": false
 		}
 	}
 }

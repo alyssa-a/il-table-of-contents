@@ -7,6 +7,11 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+.toc-btn-wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
 #toc-btn::after {
   content: "\f138";
   font-family: "Font Awesome 5 Free";
@@ -75,6 +80,10 @@
 
 .modal-dialog-slideout .modal-content {
   border: 0;
+}
+
+.sticky-toc #toc-btn {
+  margin: 0;
 }
 
 /*# sourceMappingURL=style-index.css.map*/
