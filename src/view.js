@@ -96,24 +96,24 @@ jQuery(document).ready(function( $ ) {
     });
 });
 
-// Handle "sticky" positioning on scroll
-let stickyTOC = document.querySelector('.sticky-toc');
-console.log(stickyTOC.getBoundingClientRect().top);
+// Handle "sticky" button positioning on scroll
 
+const tocBtnWrapper = document.getElementById("toc-btn-wrapper");
 
-window.onscroll = () => {
-    let topPos = stickyTOC.getBoundingClientRect().top;
-    console.log(topPos);
-    if (topPos < 0) {
-        stickyTOC.style.position = "fixed";
-        stickyTOC.style.top = "0";
-    } else if (topPos > 0) {
-        stickyTOC.style.position = "static";
-    }
+if (tocBtnWrapper.classList.contains('toc-btn-sticky')) {
+
+    const startPos = tocBtnWrapper.getBoundingClientRect().top;
+    let fixed = false;
+    
+    document.addEventListener("scroll", () => {
+        let winScrollY = window.scrollY;
+        if (winScrollY > startPos && !fixed) {
+            tocBtnWrapper.classList.add("fixed-top");
+            fixed = true;
+        } else if (winScrollY < startPos && fixed) {
+            tocBtnWrapper.classList.remove("fixed-top");
+            fixed = false;
+        }
+    });
 
 }
-
-
-// if (stickyTOC.scrollTop() == 0) {
-//     alert("at the top!");
-// }

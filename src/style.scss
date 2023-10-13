@@ -5,7 +5,7 @@
  * Replace them with your own styles or remove the file completely.
  */
 
- .toc-btn-wrapper {
+#toc-btn-wrapper {
 	display: flex;
 	flex-flow: row nowrap;
  }
@@ -82,7 +82,13 @@
 	border: 0;
 }
 
-// sticky styling
-.sticky-toc #toc-btn {
+// "sticky" styling
+.fixed-top {
+	position: fixed;
+	top: 0;
+	z-index: 10000;
+}
+
+.fixed-top #toc-btn {
 	margin: 0;
 }

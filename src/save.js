@@ -20,11 +20,10 @@ import TOCPanel from './TOCPanel';
 export default function save( { attributes } ) {
 	const { justification, sticky } = attributes
 
-
 	return (
 		<div { ...useBlockProps.save() }>
 			
-			<div className={`toc-btn-wrapper items-justified-${justification}`} >
+			<div id="toc-btn-wrapper" className={`items-justified-${justification} ${ sticky ? 'toc-btn-sticky' : '' }`} >
 				<button
 					type="button"
 					id="toc-btn"
