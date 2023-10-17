@@ -4,7 +4,7 @@
  * Description:       Add a flyout table of contents block. For use with the University of Illinois theme.
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Strategic Communications and Marketing - University of Illinois Urbana-Champaign
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html

@@ -2,7 +2,7 @@
 Contributors:      Strategic Communications and Marketing - University of Illinois Urbana-Champaign
 Tags:              block
 Tested up to:      6.1
-Stable tag:        1.0.0
+Stable tag:        1.1.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,3 +23,6 @@ IMPORTANT: This block is meant to be used with the University of Illinois theme 
 
 = 1.0.0 =
 * Release
+
+= 1.1.0 =
+* Add sticky positioning option
