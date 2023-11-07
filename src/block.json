@@ -8,7 +8,8 @@
 	"icon": "editor-ol",
 	"description": "Flyout table of contents block",
 	"supports": {
-		"html": false
+		"html": false,
+		"multiple": false
 	},
 	"textdomain": "il-table-of-contents",
 	"editorScript": "file:./index.js",
