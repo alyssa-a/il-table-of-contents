@@ -23,10 +23,10 @@ export default function save( { attributes } ) {
 	return (
 		<div { ...useBlockProps.save() }>
 			
-			<div id="toc-btn-wrapper" className={`items-justified-${justification} ${ sticky ? 'toc-btn-sticky' : '' }`} >
+			<div id="il-toc-btn-wrapper" className={`items-justified-${justification} ${ sticky ? 'toc-btn-sticky' : '' }`} >
 				<button
 					type="button"
-					id="toc-btn"
+					id="il-toc-btn"
 					className="il-button il-blue"
 					data-toggle="modal"
 					data-target="#toc-modal">

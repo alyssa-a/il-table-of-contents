@@ -70,11 +70,11 @@ export default function Edit( { attributes, setAttributes } ) {
 				/>
 			</BlockControls>
 
-			<div id="toc-btn-wrapper" className={`items-justified-${justification}`} >
+			<div id="il-toc-btn-wrapper" className={`items-justified-${justification}`} >
 
 				<button
 					type="button"
-					id="toc-btn"
+					id="il-toc-btn"
 					className="il-button il-blue"
 					tabIndex="0"
 					data-toggle="modal"

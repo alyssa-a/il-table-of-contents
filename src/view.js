@@ -3,12 +3,14 @@ import { createRoot } from '@wordpress/element';
 const TOCList = () => {
     const headingElements = document.querySelectorAll('#primary .wp-block-heading');
     
-    // Check if headings have ids. If not, set the id
     headingElements.forEach((heading) => {
+
+        // Check if headings have ids. If not, set the id
         if (!heading.hasAttribute('id')) {
             let id = heading.innerText.trim().replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '');
             heading.setAttribute('id', id);
         }
+
     });
 
     // Create array of heading objects
@@ -76,29 +78,115 @@ const tocElement = document.getElementById('toc');
 const tocRoot = createRoot(tocElement);
 tocRoot.render(<TOCList />);
 
+// get scrollbar width and create css variable for no-scroll class
+document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.offsetWidth) + 'px');
 
-// Bootstrap 4 modal manipulation requires jQuery, so we handle anchor links clicks with jQuery
+// show/hide TOC panel
+const tocBtn = document.getElementById("il-toc-btn");
+tocBtn.onclick = () => {
+    const tocPanel = document.getElementById("il-toc-panel");
+    const panelContent = tocPanel.querySelector(".il-toc-panel-content");
+    const closeBtns = tocPanel.querySelectorAll(".il-toc-close-btn");
+    const tocLinks = tocPanel.querySelectorAll("#toc a");
 
-jQuery(document).ready(function( $ ) {
-    
-    // Handle anchor link clicks
-    $('#toc a').click(function(){
-        let id = $(this).attr('href');
-        $('#toc-modal').modal('hide');
-        $('html, body').animate({
-            scrollTop: $(id).offset().top - 20
-        }, 500);
+    // get motion preferences to determine if animations should be applied
+    const prefersReducedMotion = window.matchMedia(`(prefers-reduced-motion: reduce)`) === true || window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true;
+
+    // handle close TOC panel
+    const closePanel = () => {
+        if (!prefersReducedMotion) {
+            panelContent.classList.remove("slide-in");
+            tocPanel.style.overflowY = "hidden";
+            setTimeout(() => {
+                tocPanel.style.overflowY = "hidden";
+                tocPanel.style.display = "none";
+              }, "300"); // duration for .il-toc-panel-content css transition
+        } else {
+            tocPanel.style.display = "none";
+        }
+
+        document.body.classList.remove("no-scroll");
+        tocPanel.setAttribute("aria-hidden", "true");
+        tocPanel.removeAttribute("aria-modal");
+        tocPanel.removeAttribute("role");
+    }
+
+    // disable scroll of background content
+    document.body.classList.add("no-scroll");
+    document.body.addEventListener("touchmove", (e) => {
+        e.preventDefault();
     });
 
-    //Remove focus on modal trigger button
-    $('#toc-modal').on('shown.bs.modal', function(e){
-        $('#toc-btn').one('focus', function(e){$(this).blur();});
+    // show TOC panel
+    tocPanel.style.display = "block";
+    tocPanel.style.overflowY = "auto";
+    tocPanel.scrollTop = 0;
+    tocPanel.setAttribute("role", "dialog");
+    tocPanel.setAttribute("aria-modal", "true");
+    tocPanel.removeAttribute("aria-hidden");
+    if (!prefersReducedMotion) {
+        panelContent.classList.add("slide-in");
+    }
+
+    // close TOC panel on button click
+    closeBtns.forEach((closeBtn) => {
+        closeBtn.onclick = () => {
+            closePanel();
+        }
     });
-});
+
+    // close TOC panel on background click
+    tocPanel.onclick = (e) => {
+        if (e.target == tocPanel) {
+            closePanel();
+        }
+    }
+
+    // close TOC panel on link click
+    tocLinks.forEach((link) => {
+        link.onclick = (e) => {
+            if (!prefersReducedMotion) {
+                e.preventDefault();
+                const href = link.getAttribute("href");
+                const linkTarget = document.querySelector(href);
+                const state = {
+                    hash: href,
+                }
+                linkTarget.scrollIntoView({ behavior: "smooth" });
+                window.history.pushState( state , document.title, link.getAttribute("href") );
+                closePanel();
+            } else {
+                closePanel();
+            }
+        }
+    });
+
+     // keyboard nav
+     tocPanel.focus();
+     document.addEventListener("keydown", (e) => {
+         if (e.key === "Escape") {
+            closePanel();
+         } 
+
+         // trap focus in modal
+         if (e.shiftKey && e.key === "Tab") {
+             if (document.activeElement === tocPanel || document.activeElement === closeBtns[0]) {
+                 e.preventDefault();
+                 closeBtns[1].focus();
+             }
+         } else if (e.key === "Tab") {
+             if (document.activeElement === closeBtns[1]) {
+                 e.preventDefault();
+                 closeBtns[0].focus();
+             }
+         } 
+         
+     });
+
+}
 
 // Handle "sticky" button positioning on scroll
-
-const tocBtnWrapper = document.getElementById("toc-btn-wrapper");
+const tocBtnWrapper = document.getElementById("il-toc-btn-wrapper");
 
 if (tocBtnWrapper.classList.contains('toc-btn-sticky')) {
 
