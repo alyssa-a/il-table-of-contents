@@ -1,8 +1,8 @@
 === Table of Contents Block ===
 Contributors:      Strategic Communications and Marketing - University of Illinois Urbana-Champaign
 Tags:              block
-Tested up to:      6.1
-Stable tag:        1.1.0
+Tested up to:      6.3
+Stable tag:        2.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Add a flyout table of contents block. For use with the University of Illinois th
 
 The Table of Contents block will create a list of anchor links to each heading contained on the page where the block is included. If you do not manually add html anchors to your headings, the block will set the attributes automatically.
 
-IMPORTANT: This block is meant to be used with the University of Illinois theme as it depends on CSS variables, Bootstrap and Font Awesome included in the theme.
+IMPORTANT: This block is meant to be used with the University of Illinois theme as it depends on the brand toolkit, CSS variables, and Font Awesome included in the theme.
 
 == Installation ==
 
@@ -26,3 +26,6 @@ IMPORTANT: This block is meant to be used with the University of Illinois theme 
 
 = 1.1.0 =
 * Add sticky positioning option
+
+= 2.0.0 =
+* Remove Bootstrap dependency
