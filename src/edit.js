@@ -75,10 +75,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				<button
 					type="button"
 					id="il-toc-btn"
-					className="il-button il-blue"
-					tabIndex="0"
-					data-toggle="modal"
-					data-target="#toc-modal">
+					className="il-button il-blue">
 						Table of Contents
 				</button>
 

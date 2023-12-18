@@ -109,6 +109,7 @@ tocBtn.onclick = () => {
         tocPanel.setAttribute("aria-hidden", "true");
         tocPanel.removeAttribute("aria-modal");
         tocPanel.removeAttribute("role");
+        tocBtn.focus();
     }
 
     // disable scroll of background content

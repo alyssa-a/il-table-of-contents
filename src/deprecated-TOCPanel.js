@@ -1,4 +1,4 @@
-const TOCPanel = () => {
+const deprecatedTOCPanel = () => {
     return (
         <div class="modal fade" id="toc-modal" tabindex="-1" role="dialog" aria-labelledby="toc-modal-label" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-slideout" role="document">
@@ -21,4 +21,4 @@ const TOCPanel = () => {
     );
 }
 
-export default TOCPanel;
+export default deprecatedTOCPanel;

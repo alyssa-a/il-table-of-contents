@@ -18,7 +18,7 @@ import TOCPanel from './TOCPanel';
  * @return {WPElement} Element to render.
  */
 export default function save( { attributes } ) {
-	const { justification, sticky } = attributes
+	const { justification, sticky } = attributes;
 
 	return (
 		<div { ...useBlockProps.save() }>
@@ -28,6 +28,7 @@ export default function save( { attributes } ) {
 					type="button"
 					id="il-toc-btn"
 					className="il-button il-blue"
+					aria-haspopup="dialog"
 					data-toggle="modal"
 					data-target="#toc-modal">
 						Table of Contents
