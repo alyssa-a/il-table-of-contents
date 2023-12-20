@@ -153,9 +153,9 @@ tocBtn.onclick = () => {
                 const state = {
                     hash: href,
                 }
-                linkTarget.scrollIntoView({ behavior: "smooth" });
-                window.history.pushState( state , document.title, link.getAttribute("href") );
                 closePanel();
+                linkTarget.scrollIntoView({ behavior: "smooth", block: "center" });
+                window.history.pushState( state , document.title, href );
             } else {
                 closePanel();
             }
