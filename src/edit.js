@@ -36,7 +36,7 @@ import "./editor.scss";
  * @return {WPElement} Element to render.
  */
 export default function Edit( { attributes, setAttributes } ) {
-	const { justification, sticky } = attributes;
+	const { justification, sticky, showNumbers } = attributes;
 
 	const onChangeJustification = (newJustification) => {
 		setAttributes( { justification: newJustification } )
@@ -44,6 +44,10 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const onChangeSticky = () => {
 		setAttributes( { sticky: ! sticky } );
+	}
+
+	const onChangeShowNumbers = () => {
+		setAttributes( { showNumbers: ! showNumbers } );
 	}
 
 	return (
@@ -61,6 +65,18 @@ export default function Edit( { attributes, setAttributes } ) {
 						onChange={ onChangeSticky }
 					/>
 				</PanelBody>
+				<PanelBody title="Heading Numbers">
+					<ToggleControl 
+						label="Show heading numbers"
+						help={
+							showNumbers ?
+							"Shows numbers from table of contents within headings"
+							: "Does not show numbers from table of contents within headings"
+						}
+						checked={ showNumbers }
+						onChange={ onChangeShowNumbers }
+					/>
+				</PanelBody>
 			</InspectorControls>
 
 			<BlockControls>
@@ -70,7 +86,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				/>
 			</BlockControls>
 
-			<div id="il-toc-btn-wrapper" className={`items-justified-${justification}`} >
+			<div id="il-toc-btn-wrapper" className={`items-justified-${justification}`}>
 
 				<button
 					type="button"

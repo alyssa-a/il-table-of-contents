@@ -1,5 +1,4 @@
 import { useBlockProps } from '@wordpress/block-editor';
-import deprecatedTOCPanel from './deprecated-TOCPanel';
 import TOCPanel from './TOCPanel';
 
 const attributes = {
@@ -39,4 +38,31 @@ const v1 = {
     }
 }
 
-export default [ v1 ];
+const v2 = {
+    attributes,
+    save( { attributes } ) {
+        const { justification, sticky } = attributes;
+    
+        return (
+            <div { ...useBlockProps.save() }>
+                
+                <div id="il-toc-btn-wrapper" className={`items-justified-${justification} ${ sticky ? 'toc-btn-sticky' : '' }`} >
+                    <button
+                        type="button"
+                        id="il-toc-btn"
+                        className="il-button il-blue"
+                        aria-haspopup="dialog"
+                        data-toggle="modal"
+                        data-target="#toc-modal">
+                            Table of Contents
+                    </button>
+                </div>
+    
+                <TOCPanel />
+    
+            </div>
+        );
+    }
+}
+
+export default [ v2, v1 ];

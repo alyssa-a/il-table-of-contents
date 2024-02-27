@@ -18,12 +18,12 @@ import TOCPanel from './TOCPanel';
  * @return {WPElement} Element to render.
  */
 export default function save( { attributes } ) {
-	const { justification, sticky } = attributes;
+	const { justification, sticky, showNumbers } = attributes;
 
 	return (
-		<div { ...useBlockProps.save() }>
+		<div { ...useBlockProps.save() } data-show-numbers={showNumbers}>
 			
-			<div id="il-toc-btn-wrapper" className={`items-justified-${justification} ${ sticky ? 'toc-btn-sticky' : '' }`} >
+			<div id="il-toc-btn-wrapper" className={`items-justified-${justification} ${ sticky ? 'toc-btn-sticky' : '' }`}>
 				<button
 					type="button"
 					id="il-toc-btn"

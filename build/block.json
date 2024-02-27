@@ -24,6 +24,10 @@
     "sticky": {
       "type": "boolean",
       "default": false
+    },
+    "showNumbers": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

@@ -1,47 +1,51 @@
-import { createRoot } from '@wordpress/element';
+import { createRoot, useEffect } from '@wordpress/element';
 
-const TOCList = () => {
-    const headingElements = document.querySelectorAll('#primary .wp-block-heading');
+const TOCList = ( { headingObjs }) => {
     
-    headingElements.forEach((heading) => {
-
-        // Check if headings have ids. If not, set the id
-        if (!heading.hasAttribute('id')) {
-            let id = heading.innerText.trim().replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '');
-            heading.setAttribute('id', id);
-        }
-
-    });
-
-    // Create array of heading objects
-    const headings = Array.from(headingElements)
-        .map((elem) => ({
-            id: elem.id,
-            text: elem.innerText,
-            level: Number(elem.nodeName.charAt(1)),
-            children: []
-        }));
+    useEffect(() => {
+        const event = new Event('rendered')
+        document.dispatchEvent(event);
+    }, []);
 
     const buildNestedHeadings = (headings) => {
-        headings = headings.reverse();
+        const reversedHeadings = headings.slice().reverse();
         let nestedHeadings = [];
         
-        headings.forEach((heading, i) => {
+        reversedHeadings.forEach((heading, i) => {
             // new sections will always begin with an h2, so check if level == 2
             if (heading.level == 2) {
                 nestedHeadings.push(heading);
             } else {
-                for (let j = i; j < headings.length; j++) {
-                    if (headings[j].level < heading.level) {
+                for (let j = i; j < reversedHeadings.length; j++) {
+                    if (reversedHeadings[j].level < heading.level) {
                     // parent of heading was found, so push to its children
-                    headings[j].children.unshift(heading);
+                    reversedHeadings[j].children.unshift(heading);
                     break;
                     }
                 }
             }
         });
         
-        return nestedHeadings.reverse();
+        nestedHeadings.reverse();
+
+        const getListNumbers = (nestedHeadings, parent) => {
+            nestedHeadings.forEach((heading, i) => {
+                i++;
+                if (parent) {
+                    heading.listNumber = `${parent.listNumber}.${i}`;
+                } else {
+                    heading.listNumber = `${i}`;
+                }
+                
+                if (heading.children.length > 0) {
+                    getListNumbers(heading.children, heading);
+                }
+            });
+        }
+
+        getListNumbers(nestedHeadings);
+    
+        return nestedHeadings;
         
     };
 
@@ -50,21 +54,21 @@ const TOCList = () => {
             <>
             { heading.children.length > 0 ? (
                 <li key={heading.id}>
-                    <a href={"#" + heading.id}>{heading.text}</a>
+                    <span className="il-toc-list-number">{heading.listNumber}.</span> <a href={"#" + heading.id}>{heading.text}</a>
                     <ol>
                         {mapHeadings(heading.children)}
                     </ol>
                 </li>
             ) : (
                 <li key={heading.id}>
-                    <a href={"#" + heading.id}>{heading.text}</a>
+                    <span className="il-toc-list-number">{heading.listNumber}.</span> <a href={"#" + heading.id}>{heading.text}</a>
                 </li>
             )}
             </>
         ));
     };
 
-    const nestedHeadings = buildNestedHeadings(headings);
+    const nestedHeadings = buildNestedHeadings(headingObjs);
 
     return (
         <ol>
@@ -73,10 +77,41 @@ const TOCList = () => {
     );
 }
 
+// get all headings
+const wpHeadings = document.querySelectorAll('#primary .wp-block-heading');
+wpHeadings.forEach((heading) => {
+    // Check if headings have ids. If not, set the id
+    if (!heading.hasAttribute('id')) {
+        let id = heading.innerText.trim().replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '');
+        heading.setAttribute('id', id);
+    }
+});
+
+// Create array of heading objects
+const headingsArr = Array.from(wpHeadings).map((elem) => ({
+    id: elem.id,
+    text: elem.innerText,
+    level: Number(elem.nodeName.charAt(1)),
+    listNumber: "",
+    children: []
+}));
+
 // Render the list items
 const tocElement = document.getElementById('toc');
 const tocRoot = createRoot(tocElement);
-tocRoot.render(<TOCList />);
+tocRoot.render(<TOCList headingObjs={headingsArr}/>);
+
+// show numbers from TOC in heading elements
+document.addEventListener('rendered', () => {
+    const showNumbers = document.querySelector(".wp-block-create-block-il-table-of-contents").dataset.showNumbers;
+
+    if (showNumbers === "true") {
+        wpHeadings.forEach((heading, i) => {
+            heading.insertAdjacentHTML("afterbegin", `<span class="il-toc-heading-number">${headingsArr[i].listNumber}.</span> `);
+        });
+    }
+
+});
 
 // get scrollbar width and create css variable for no-scroll class
 document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.offsetWidth) + 'px');

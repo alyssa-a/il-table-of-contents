@@ -98,31 +98,30 @@
 	border-top: 1px solid var(--il-cloud-3);
 }
 
+.il-toc-list-number {
+	padding-right: 0.6em;
+	display: table-cell;
+}
+
 #toc ol {
   list-style-type: none;
-  counter-reset: item;
-  margin: 0;
-  padding: 0;
 }
 
 #toc ol > li {
-  display: table;
-  counter-increment: item;
-  margin-bottom: 0.6em;
+	display: table;
+	margin: 0;
 }
 
-#toc ol > li:before {
-  content: counters(item, ".") ". ";
-  display: table-cell;
-  padding-right: 0.6em;    
+#toc > ol > li {
+	margin: 0 0 0.6em 0;
 }
 
-#toc li ol > li {
-  margin: 0;
+#toc li > ol {
+	margin-top: 0;
 }
 
-#toc li ol > li:before {
-  content: counters(item, ".") " ";
+#toc li ol li {
+	margin-top: 0;
 }
 
 // "sticky" styling
